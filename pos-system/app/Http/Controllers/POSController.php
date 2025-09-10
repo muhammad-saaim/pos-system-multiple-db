@@ -44,13 +44,16 @@ class POSController extends Controller
 
         // ✅ Dispatch background job to sync with Slave DB
         SyncSaleToSlave::dispatch([
-            'id'         => $sale->id,
-            'product_id' => $sale->product_id,
-            'quantity'   => $sale->quantity,
-            'total'      => $sale->total,
-            'created_at' => $sale->created_at,
-            'updated_at' => $sale->updated_at,
-        ]);
+                'id'           => $sale->id,
+                'product_id'   => $sale->product_id,
+                'product_name' => $product->name,        // added
+                'price'        => $product->price,       // added
+                'quantity'     => $sale->quantity,
+                'total'        => $sale->total,
+                'created_at'   => $sale->created_at,
+                'updated_at'   => $sale->updated_at,
+            ]);
+
 
         return back()->with('success', 'Sale recorded! Total: $' . number_format($total, 2));
     }
