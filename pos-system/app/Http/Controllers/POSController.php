@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Sale;
-use Illuminate\Support\Facades\DB;
+use App\Jobs\SyncSaleToSlave;
 
 class POSController extends Controller
 {
@@ -42,7 +42,8 @@ class POSController extends Controller
         // Decrement stock in Master DB
         $product->decrement('stock', $request->quantity);
 
-        DB::connection('mysql_slave')->table('sales')->insert([
+        // ✅ Dispatch background job to sync with Slave DB
+        SyncSaleToSlave::dispatch([
             'id'         => $sale->id,
             'product_id' => $sale->product_id,
             'quantity'   => $sale->quantity,
@@ -50,6 +51,7 @@ class POSController extends Controller
             'created_at' => $sale->created_at,
             'updated_at' => $sale->updated_at,
         ]);
+
         return back()->with('success', 'Sale recorded! Total: $' . number_format($total, 2));
     }
 }
