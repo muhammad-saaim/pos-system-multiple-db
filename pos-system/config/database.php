@@ -71,6 +71,22 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
+        'mysql_third' => [
+            'driver' => 'mysql',
+            'url' => env('DB_URL_THIRD'),
+            'host' => env('DB_HOST_THIRD', '127.0.0.1'),
+            'port' => env('DB_PORT_THIRD', '3306'),
+            'database' => env('DB_DATABASE_THIRD', 'pos_third'),
+            'username' => env('DB_USERNAME_THIRD', 'root'),
+            'password' => env('DB_PASSWORD_THIRD', ''),
+            'unix_socket' => env('DB_SOCKET_THIRD', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+            ],
+
 
         // Keeping pgsql, mariadb, sqlsrv for future use (unchanged)
         'mariadb' => [
